@@ -1,0 +1,94 @@
+name: Build and Deploy Student Grade Manager
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Emscripten
+      uses: mymindstorm/setup-emsdk@v11
+      with:
+        version: latest
+        
+    - name: Verify Emscripten installation
+      run: |
+        emcc --version
+        which emcc
+        
+    - name: Build WebAssembly module
+      run: |
+        chmod +x build.sh
+        ./build.sh
+        
+    - name: Verify build artifacts
+      run: |
+        ls -la js/
+        file js/grade_manager.wasm
+        
+    - name: Test application (basic)
+      run: |
+        # Basic file existence check
+        test -f index.html
+        test -f styles.css
+        test -f js/app.js
+        test -f js/grade_manager.js
+        test -f js/grade_manager.wasm
+        echo "All required files exist ✅"
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: webassembly-build
+        path: |
+          js/grade_manager.js
+          js/grade_manager.wasm
+        retention-days: 30
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+    
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Emscripten
+      uses: mymindstorm/setup-emsdk@v11
+      with:
+        version: latest
+        
+    - name: Build WebAssembly module
+      run: |
+        chmod +x build.sh
+        ./build.sh
+        
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+      
+    - name: Upload to GitHub Pages
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: .
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
