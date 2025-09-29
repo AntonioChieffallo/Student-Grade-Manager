@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 Student Grade Manager</h1>
+            <p>Manage your courses and calculate your GPA with precision</p>
+        </header>
+
+        <main>
+            <!-- Add Course Section -->
+            <section class="section">
+                <h2>Add Course</h2>
+                <div class="form-group">
+                    <input type="text" id="courseName" placeholder="Course Name (e.g., Math 101)" required>
+                    <input type="number" id="courseCredits" placeholder="Credits" min="1" max="6" required>
+                    <button id="addCourseBtn" class="btn btn-primary">Add Course</button>
+                </div>
+            </section>
+
+            <!-- Add Grade Section -->
+            <section class="section">
+                <h2>Add Grade</h2>
+                <div class="form-group">
+                    <select id="courseSelect">
+                        <option value="">Select a course</option>
+                    </select>
+                    <input type="number" id="gradeInput" placeholder="Grade (0-100)" min="0" max="100" step="0.1" required>
+                    <button id="addGradeBtn" class="btn btn-secondary">Add Grade</button>
+                </div>
+            </section>
+
+            <!-- GPA Display -->
+            <section class="section gpa-section">
+                <h2>Your Academic Summary</h2>
+                <div class="gpa-display">
+                    <div class="gpa-value">
+                        <span class="gpa-number" id="gpaValue">0.00</span>
+                        <span class="gpa-label">Current GPA</span>
+                    </div>
+                </div>
+                <button id="calculateGpaBtn" class="btn btn-success">Calculate GPA</button>
+            </section>
+
+            <!-- Courses List -->
+            <section class="section">
+                <h2>Your Courses</h2>
+                <div id="coursesList" class="courses-container">
+                    <p class="no-courses">No courses added yet. Add your first course above!</p>
+                </div>
+            </section>
+
+            <!-- Action Buttons -->
+            <section class="section">
+                <div class="action-buttons">
+                    <button id="refreshBtn" class="btn btn-info">Refresh Data</button>
+                    <button id="clearAllBtn" class="btn btn-danger">Clear All Data</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Built with C++ & WebAssembly | <a href="https://github.com/AntonioChieffallo/Student-Grade-Manager">View Source</a></p>
+        </footer>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Loading WebAssembly module...</p>
+    </div>
+
+    <!-- Error message -->
+    <div id="errorMessage" class="error-message" style="display: none;">
+        <p id="errorText"></p>
+        <button onclick="hideError()" class="btn btn-small">Dismiss</button>
+    </div>
+
+    <script src="js/grade_manager.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

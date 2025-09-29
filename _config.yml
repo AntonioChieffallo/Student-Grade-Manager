@@ -1,0 +1,41 @@
+# GitHub Pages configuration for Student Grade Manager
+title: "Student Grade Manager"
+description: "A modern web application for managing student grades and calculating GPA"
+author: "Antonio Chieffallo"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Include all necessary files for GitHub Pages
+include:
+  - js/
+  - src/
+  - build.sh
+  - Makefile
+
+# Exclude build artifacts that shouldn't be in the repository
+exclude:
+  - build/
+  - node_modules/
+  - .gitignore
+  - README.md
+
+# Theme (optional)
+theme: minima
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# SEO and metadata
+lang: en
+timezone: America/New_York
+
+# Social links (optional)
+github_username: AntonioChieffallo
+
+# Additional metadata for better SEO
+keywords: "student, grade, manager, gpa, calculator, webassembly, c++, javascript"
+google_analytics: # Add your GA tracking ID if needed
